@@ -12,7 +12,7 @@
   pip:
     chdir: "{{r.app_root}}"
     name: "{{r.package}}"
-    state: present
+    state: latest
     virtualenv: "{{r.app_root}}/venv"
     virtualenv_command: /usr/bin/python3 -m venv
 
