@@ -1,0 +1,23 @@
+---
+- hosts: krcg
+  become: 'yes'
+  gather_facts: 'no'
+  vars:
+    username: lpanhaleux
+  roles:
+    - role: register-ssl
+      tags:
+        - frontend
+        - certs
+      rs_server_name: www.codex-of-the-damned.org
+
+    - role: register-ssl
+      tags:
+        - frontend
+        - certs
+      rs_server_name: codex-of-the-damned.org
+
+    - role: static-website
+      tags: frontend
+      sw_server_name: codex-of-the-damned.org
+      sw_alternate_server_name: www.codex-of-the-damned.org

@@ -1,0 +1,55 @@
+---
+- name: Ensure site root folder is present
+  file:
+    state: directory
+    path: "{{ r.site_root }}"
+    owner: "{{ username }}"
+    mode: 0755
+
+- name: Setup uwsgi
+  apt:
+    state: present
+    name:
+      - uwsgi
+      - uwsgi-plugin-python3
+      - python-pip
+      - python3-venv
+
+- name: Sync repository to the application folder
+  become: 'no'
+  tags: deploy
+  git:
+    repo: "git@github.com:{{ r.repository }}"
+    version: master
+    dest: "{{ r.site_root }}/src"
+    accept_hostkey: 'yes'
+
+- name: Install Python requirements
+  become: 'no'
+  tags: deploy
+  pip:
+    chdir: "{{ r.site_root }}/src"
+    editable: 'true'
+    name: "{{ r.pip_target }}"
+    state: present
+    virtualenv: "{{ r.site_root }}/venv"
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Add uwsgi configuration
+  tags: deploy
+  template:
+    src: uwsgi.ini.j2
+    dest: "{{ r.site_root }}/uwsgi.ini"
+
+- name: Add service
+  template:
+    src: service.j2
+    dest: "/etc/systemd/system/{{ r.package }}.service"
+
+- name: Restart the service
+  tags: deploy
+  systemd:
+    name: "{{ r.package }}"
+    daemon_reload: 'yes'
+    enabled: 'yes'
+    state: restarted

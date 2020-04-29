@@ -1,0 +1,7 @@
+---
+r:
+  package: "{{pw_package}}"
+  app_root: "/home/{{username}}/projects/{{pw_app_name}}"
+  command: "{{pw_command}}"
+  app_name: "{{pw_app_name}}"
+  env_vars: "{{pw_env}}"

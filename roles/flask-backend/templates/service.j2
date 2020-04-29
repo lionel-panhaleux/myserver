@@ -1,0 +1,14 @@
+[Unit]
+Description={{r.package}} service
+After=nginx.service
+
+[Service]
+StandardError=syslog
+Restart=always
+WorkingDirectory={{r.site_root}}
+TimeoutStartSec=5
+ExecStop=/usr/bin/uwsgi --stop /tmp/{{r.package}}-master.pid
+ExecStart=/usr/bin/uwsgi --ini {{r.site_root}}/uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target

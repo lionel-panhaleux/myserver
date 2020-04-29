@@ -1,0 +1,20 @@
+---
+- name: Create base user
+  user:
+    name: "{{ username }}"
+    state: present
+    shell: /bin/bash
+
+- name: Allow passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^{{ username }}"
+    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+
+- name: Transfer SSH key
+  authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

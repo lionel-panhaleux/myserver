@@ -1,0 +1,6 @@
+
+---
+r:
+  server_name: "{{rs_server_name}}"
+  contact_name: "{{username}}@{{rs_server_name}}"
+  site_root: "/home/{{username}}/projects/{{rs_server_name}}"

@@ -1,0 +1,10 @@
+---
+- name: Add HTTPS site configuration
+  template:
+    src: https.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.https.conf"
+
+- name: Reload nginx
+  service:
+    name: nginx
+    state: reloaded

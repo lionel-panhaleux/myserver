@@ -1,0 +1,30 @@
+---
+- name: Ensure site root folder is present
+  file:
+    state: directory
+    path: "{{r.app_root}}"
+    owner: "{{username}}"
+    mode: 0755
+
+- name: Install Python requirements
+  become: 'no'
+  tags: deploy
+  pip:
+    chdir: "{{r.app_root}}"
+    name: "{{r.package}}"
+    state: present
+    virtualenv: "{{r.app_root}}/venv"
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Add service
+  template:
+    src: service.j2
+    dest: "/etc/systemd/system/{{r.app_name}}.service"
+
+- name: Restart the service
+  tags: deploy
+  systemd:
+    name: "{{r.app_name}}"
+    daemon_reload: 'yes'
+    enabled: 'yes'
+    state: restarted

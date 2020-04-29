@@ -1,0 +1,12 @@
+server {
+  listen 80;
+  server_name {{r.server_name}};
+  root /usr/share/nginx/html;
+  index index.html;
+  location ~ /.well-known {
+    allow all;
+  }
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}

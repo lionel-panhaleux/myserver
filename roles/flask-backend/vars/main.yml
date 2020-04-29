@@ -1,0 +1,10 @@
+---
+r:
+  package: "{{fb_package}}"
+  repository: "{{fb_repository}}"
+  uwsgi_entrypoint: "{{fb_uwsgi_entrypoint}}"
+  pip_target: "{{fb_pip_target | default('.')}}"
+  site_root: "/home/{{username}}/projects/{{fb_server_name}}"
+  media_path: "/home/{{username}}/projects/{{fb_server_name}}/media"
+  port: "{{fb_port}}"
+  env_vars: "{{fb_env}}"

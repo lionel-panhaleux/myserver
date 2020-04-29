@@ -1,0 +1,16 @@
+---
+- name: Add HTTP site configuration
+  template:
+    src: http.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.http.conf"
+
+- name: Reload nginx
+  tags: nginx
+  service:
+    name: nginx
+    state: reloaded
+
+- name: Let certbot generate a certificate and serve it
+  command: "certbot certonly --webroot --email {{ r.contact_name }} --agree-tos --webroot-path=/usr/share/nginx/html -d {{ r.server_name }}"
+  args:
+    creates: "/etc/letsencrypt/live/{{ r.server_name }}/fullchain.pem"

@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: "yes"
+  # become_method: su
+  gather_facts: "no"
+
+  vars:
+    username: lpanhaleux
+
+  pre_tasks:
+    - name: Install base packages
+      raw: apt-get -y install python sudo
+      tags:
+        - skip_ansible_lint
+
+  roles:
+    - role: setup-base-user
+
+  post_tasks:
+    - name: Remove SSH access for root user
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^#?PermitRootLogin"
+        line: "PermitRootLogin no"
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted

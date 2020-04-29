@@ -1,0 +1,6 @@
+# ansible
+.vault-password-file.txt
+
+# editors & OS
+.vscode/
+*.DS_Store
