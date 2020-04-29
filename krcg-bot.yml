@@ -5,7 +5,7 @@
   vars:
     username: lpanhaleux
   roles:
-    - role: worker
+    - role: python-worker
       tags:
       - backend
       pw_package: krcg

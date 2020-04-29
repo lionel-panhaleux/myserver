@@ -3,6 +3,8 @@ plugins = python3
 chdir = {{r.site_root}}/src
 home = {{r.site_root}}/venv
 module = {{r.uwsgi_entrypoint}}
+single-interpreter = true
+need-app=true
 http-socket = 127.0.0.1:{{r.port}}
 logto = /var/log/uwsgi/{{r.package}}.log
 
@@ -10,8 +12,11 @@ pidfile = /tmp/{{r.package}}-master.pid
 
 master = true
 max-requests = 500
-harakiri = 60
+max-requests-delta = 50
+harakiri = 180
 processes = 4
+auto-procname = true
+procname-prefix = "{{r.package}} "
 
 {% for key, value in r.env_vars.items() %}
 env = {{ key }}={{ value }}
