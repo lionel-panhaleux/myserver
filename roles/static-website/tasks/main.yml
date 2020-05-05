@@ -1,4 +1,3 @@
-
 ---
 - name: Ensure site root folder is present
   file:

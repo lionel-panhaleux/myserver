@@ -41,6 +41,16 @@ ansible-playbook setup.yml
 
 ### Setup the KRCG API
 
+You need a personal token for the codex-krcg Github user,
+use `ansible-vault` to encode it:
+
+```bash
+ansible-vault encrypt_string '<github_token>' --name 'GITHUB_TOKEN'
+```
+
+Copy the resulting string to `krcg-api.yaml` (replace the old `GITHUB_PASSWORD:` value).
+You can now deploy:
+
 ```bash
 ansible-playbook krcg-api.yml
 ```

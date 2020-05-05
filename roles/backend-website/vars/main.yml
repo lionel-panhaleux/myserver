@@ -1,4 +1,3 @@
-
 ---
 r:
   server_name: "{{pw_server_name}}"
