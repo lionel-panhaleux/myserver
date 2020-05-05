@@ -8,7 +8,9 @@
 
 - name: Install Python requirements
   become: 'no'
-  tags: deploy
+  tags:
+    - deploy
+    - skip_ansible_lint
   pip:
     chdir: "{{ r.app_root }}"
     name: "{{ r.package }}"
