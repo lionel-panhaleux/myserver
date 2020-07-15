@@ -6,7 +6,6 @@ After=network-online.target
 Type=simple
 StandardError=syslog
 Restart=always
-TimeoutStopSec=3600
 WorkingDirectory={{r.app_root}}
 {% for key, value in r.env_vars.items() %}
 Environment={{key}}={{value}}

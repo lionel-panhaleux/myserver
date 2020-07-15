@@ -70,6 +70,21 @@ You can now deploy:
 ansible-playbook krcg-bot.yml
 ```
 
+### Setup the Timer Discord Bot
+
+You need to get the bot token from discord and use `ansible-vault` to encode it:
+
+```bash
+ansible-vault encrypt_string '<bot_token>' --name 'DISCORD_TOKEN'
+```
+
+Copy the resulting string to `timer-bot.yaml` (replace the old `DISCORD_TOKEN:` value).
+You can now deploy:
+
+```bash
+ansible-playbook timer-bot.yml
+```
+
 ## Setup the Codex website
 
 ```bash
