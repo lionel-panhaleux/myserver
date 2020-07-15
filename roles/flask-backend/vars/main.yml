@@ -8,3 +8,4 @@ r:
   media_path: "/home/{{username}}/projects/{{fb_server_name}}/media"
   port: "{{fb_port}}"
   env_vars: "{{fb_env}}"
+  version: "{{version}}"

@@ -20,7 +20,7 @@
   tags: deploy
   git:
     repo: "git@github.com:{{ r.repository }}"
-    version: master
+    version: "{{ r.version }}"
     dest: "{{ r.site_root }}/src"
     accept_hostkey: 'yes'
 
