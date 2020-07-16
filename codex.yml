@@ -9,15 +9,25 @@
       tags:
         - frontend
         - certs
-      rs_server_name: www.codex-of-the-damned.org
+      rs_server_name: codex-of-the-damned.org
 
     - role: register-ssl
       tags:
         - frontend
         - certs
-      rs_server_name: codex-of-the-damned.org
+      rs_server_name: www.codex-of-the-damned.org
 
-    - role: static-website
-      tags: frontend
-      sw_server_name: codex-of-the-damned.org
-      sw_alternate_server_name: www.codex-of-the-damned.org
+    - role: flask-backend
+      tags:
+        - backend
+        - uwsgi
+      fb_package: codex-of-the-damned
+      fb_uwsgi_entrypoint: "codex_of_the_damned:app"
+      fb_server_name: codex-of-the-damned.org
+      fb_port: 8002
+
+    - role: backend-website
+      tags: backend
+      pw_server_name: codex-of-the-damned.org
+      pw_alternate_server_name: www.codex-of-the-damned.org
+      pw_port: 8002
