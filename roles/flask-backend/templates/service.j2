@@ -1,5 +1,5 @@
 [Unit]
-Description={{r.package}} service
+Description={{r.server_name}} service
 After=nginx.service
 
 [Service]
@@ -7,7 +7,7 @@ StandardError=syslog
 Restart=always
 WorkingDirectory={{r.site_root}}
 TimeoutStartSec=5
-ExecStop=/usr/bin/uwsgi --stop /tmp/{{r.package}}-master.pid
+ExecStop=/usr/bin/uwsgi --stop /tmp/{{r.server_name}}-master.pid
 ExecStart=/usr/bin/uwsgi --ini {{r.site_root}}/uwsgi.ini
 
 [Install]
