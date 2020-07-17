@@ -24,7 +24,7 @@
     dest: "/etc/systemd/system/{{ r.app_name }}.service"
 
 - name: Restart the service
-  tags: deploy
+  tags: [deploy]
   systemd:
     name: "{{ r.app_name }}"
     daemon_reload: 'yes'
