@@ -25,6 +25,7 @@ server {
   access_log /var/log/nginx/{{r.server_name}}-access.log;
   error_log /var/log/nginx/{{r.server_name}}-error.log;
 
+  root {{r.site_root}}/dist;
   charset utf-8;
   client_max_body_size 10M;
 
