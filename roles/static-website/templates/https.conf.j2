@@ -59,5 +59,6 @@ server {
 
   location ~* \.(?:jpg|png|svg)$ {
     add_header Cache-Control "public, must-revalidate, proxy-revalidate, max-age 3600";
+    add_header 'Access-Control-Allow-Origin' '*';
   }
 }
