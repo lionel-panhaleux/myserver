@@ -15,7 +15,7 @@
         - uwsgi
       fb_package: krcg
       fb_pip_target: "krcg[web]"
-      fb_uwsgi_entrypoint: "src.wsgi:application"
+      fb_uwsgi_entrypoint: "krcg.wsgi:application"
       fb_server_name: api.krcg.org
       fb_port: 8000
       fb_env:

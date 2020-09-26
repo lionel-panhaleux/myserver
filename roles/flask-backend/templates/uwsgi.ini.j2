@@ -1,5 +1,6 @@
 [uwsgi]
 plugins = python3
+uid = {{username}}
 chdir = {{r.site_root}}
 home = {{r.site_root}}/venv
 module = {{r.uwsgi_entrypoint}}
