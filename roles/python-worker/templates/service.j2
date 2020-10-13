@@ -4,6 +4,7 @@ After=network-online.target
 
 [Service]
 Type=simple
+User={{username}}
 StandardError=syslog
 Restart=always
 WorkingDirectory={{r.app_root}}
