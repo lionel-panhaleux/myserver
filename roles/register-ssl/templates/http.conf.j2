@@ -1,6 +1,10 @@
 server {
   listen 80;
   server_name {{r.server_name}};
+
+  access_log syslog:server=unix:/dev/log,nohostname;
+  error_log syslog:server=unix:/dev/log,nohostname;
+
   root /usr/share/nginx/html;
   index index.html;
   location ~ /.well-known {

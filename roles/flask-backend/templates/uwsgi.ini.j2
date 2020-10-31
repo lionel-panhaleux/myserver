@@ -7,7 +7,6 @@ module = {{r.uwsgi_entrypoint}}
 single-interpreter = true
 need-app=true
 http-socket = 127.0.0.1:{{r.port}}
-logto = /var/log/uwsgi/{{r.server_name}}.log
 
 pidfile = /tmp/{{r.server_name}}-master.pid
 

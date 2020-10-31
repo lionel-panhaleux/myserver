@@ -3,7 +3,6 @@ Description={{r.server_name}} service
 After=nginx.service
 
 [Service]
-StandardError=syslog
 Restart=always
 WorkingDirectory={{r.site_root}}
 TimeoutStartSec=5

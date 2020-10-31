@@ -22,8 +22,8 @@ server {
   ssl_stapling on;
   ssl_stapling_verify on;
 
-  access_log /var/log/nginx/{{r.server_name}}-access.log;
-  error_log /var/log/nginx/{{r.server_name}}-error.log;
+  access_log syslog:server=unix:/dev/log,nohostname;
+  error_log syslog:server=unix:/dev/log,nohostname;
 
   root {{r.site_root}}/dist;
   charset utf-8;
