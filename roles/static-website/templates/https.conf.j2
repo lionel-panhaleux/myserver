@@ -53,12 +53,20 @@ server {
     image/svg+xml;
   gzip_static on;
 
+{% if r.cache %}
+  location ~* \.(?:htm|html|js|css)$ {
+    add_header Cache-Control "public, must-revalidate, max-age=300";
+  }
+  location ~* \.(?:json)$ {
+    add_header Cache-Control "public, must-revalidate, max-age=3600";
+  }
+{% else %}
   location ~* \.(?:html|js|css|json)$ {
     add_header Cache-Control "public, must-revalidate, max-age=0";
   }
-
+{% endif %}
   location ~* \.(?:jpg|png|svg)$ {
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate, max-age 3600";
+    add_header Cache-Control "public, must-revalidate, max-age 3600";
     add_header 'Access-Control-Allow-Origin' '*';
   }
 }
