@@ -6,12 +6,9 @@
       username: lpanhaleux
   roles:
       - role: register-ssl
-        tags:
-            - frontend
-            - certs
         rs_server_name: static.krcg.org
 
       - role: static-website
-        tags: frontend
         sw_server_name: static.krcg.org
         sw_cache: true
+        sw_autoindex: true

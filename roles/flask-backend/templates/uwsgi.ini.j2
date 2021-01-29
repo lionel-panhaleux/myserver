@@ -2,11 +2,11 @@
 plugins = python3
 uid = {{username}}
 chdir = {{r.site_root}}
-home = {{r.site_root}}/venv
+virtualenv = venv
 module = {{r.uwsgi_entrypoint}}
 single-interpreter = true
 need-app=true
-http-socket = 127.0.0.1:{{r.port}}
+socket = 127.0.0.1:{{r.port}}
 
 pidfile = /tmp/{{r.server_name}}-master.pid
 

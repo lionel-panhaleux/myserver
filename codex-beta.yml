@@ -6,15 +6,9 @@
     username: lpanhaleux
   roles:
     - role: register-ssl
-      tags:
-        - frontend
-        - certs
       rs_server_name: codex-beta.krcg.org
 
     - role: flask-backend
-      tags:
-        - backend
-        - uwsgi
       fb_package: codex-of-the-damned
       fb_uwsgi_entrypoint: "codex_of_the_damned:app"
       fb_server_name: codex-beta.krcg.org
