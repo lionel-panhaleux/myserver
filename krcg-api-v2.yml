@@ -11,7 +11,7 @@
       - role: flask-backend
         fb_package: krcg-api
         fb_uwsgi_entrypoint: "krcg_api.wsgi:application"
-        fb_server_name: v2.api.krcg.org
+        fb_server_name: api.krcg.org
         fb_port: 8003
         fb_env:
             GITHUB_USERNAME: "codex-krcg"
@@ -26,5 +26,6 @@
 
       - role: backend-website
         tags: backend
-        pw_server_name: v2.api.krcg.org
+        pw_server_name: api.krcg.org
+        pw_alternate_server_name: v2.api.krcg.org
         pw_port: 8003

@@ -15,7 +15,7 @@
         fb_package: krcg
         fb_pip_target: "krcg[web]==1.11"
         fb_uwsgi_entrypoint: "krcg.wsgi:application"
-        fb_server_name: api.krcg.org
+        fb_server_name: v1.api.krcg.org
         fb_port: 8000
         fb_env:
             GITHUB_USERNAME: "codex-krcg"
@@ -30,6 +30,5 @@
 
       - role: backend-website
         tags: backend
-        pw_server_name: api.krcg.org
-        pw_alternate_server_name: v1.api.krcg.org
+        pw_server_name: v1.api.krcg.org
         pw_port: 8000
