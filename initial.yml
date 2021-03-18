@@ -5,24 +5,24 @@
   gather_facts: "no"
 
   vars:
-    username: lpanhaleux
+      username: lpanhaleux
 
   pre_tasks:
-    - name: Install base packages
-      raw: apt-get -y install python sudo
-      tags:
-        - skip_ansible_lint
+      - name: Install base packages
+        raw: apt-get -y install python sudo
+        tags:
+            - skip_ansible_lint
 
   roles:
-    - role: setup-base-user
+      - role: setup-base-user
 
   post_tasks:
-    - name: Remove SSH access for root user
-      lineinfile:
-        dest: /etc/ssh/sshd_config
-        regexp: "^#?PermitRootLogin"
-        line: "PermitRootLogin no"
-    - name: Restart SSH
-      service:
-        name: ssh
-        state: restarted
+      - name: Remove SSH access for root user
+        lineinfile:
+            dest: /etc/ssh/sshd_config
+            regexp: "^#?PermitRootLogin"
+            line: "PermitRootLogin no"
+      - name: Restart SSH
+        service:
+            name: ssh
+            state: restarted
