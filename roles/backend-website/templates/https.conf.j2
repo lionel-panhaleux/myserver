@@ -5,6 +5,12 @@ server {
   ssl_certificate         /etc/letsencrypt/live/{{r.alternate_server_name}}/fullchain.pem;
   ssl_certificate_key     /etc/letsencrypt/live/{{r.alternate_server_name}}/privkey.pem;
   ssl_trusted_certificate /etc/letsencrypt/live/{{r.alternate_server_name}}/fullchain.pem;
+
+  add_header 'Access-Control-Allow-Origin' '*' always;
+  add_header 'Access-Control-Allow-Headers' '*' always;
+  add_header 'Access-Control-Allow-Methods' '*';
+  add_header 'Access-Control-Max-Age' 3600;
+
   return 301 https://{{r.server_name}}$request_uri;
 }
 {% endif %}
