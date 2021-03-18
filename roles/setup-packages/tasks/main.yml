@@ -1,35 +1,40 @@
 ---
 - name: Add backports repository
   apt_repository:
-    update_cache: "yes"
-    repo: "deb http://deb.debian.org/debian buster-backports main contrib non-free"
-    state: present
+      update_cache: "yes"
+      repo: "deb http://deb.debian.org/debian bullseye-backports main contrib non-free"
+      state: present
 
 - name: Update APT packages
   apt:
-    update_cache: "yes"
-    cache_valid_time: "3600"
-    upgrade: full
+      update_cache: "yes"
+      cache_valid_time: "3600"
+      upgrade: full
 
 - name: Setup base packages
   apt:
-    state: present
-    name:
-      - git
-      - nginx
-      - python-acme
-      - certbot
-      - python-certbot-nginx
-      - curl
-      - make
-      - rsync
+      state: present
+      name:
+          - gcc
+          - git
+          - nginx
+          - python-acme
+          - certbot
+          - postgresql
+          - postgresql-client
+          - python-certbot-nginx
+          - python3-venv
+          - python3-dev
+          - curl
+          - make
+          - rsync
 
 - name: Remove default nginx config
   file:
-    name: /etc/nginx/sites-enabled/default
-    state: absent
+      name: /etc/nginx/sites-enabled/default
+      state: absent
 
 - name: Reload nginx
   service:
-    name: nginx
-    state: reloaded
+      name: nginx
+      state: reloaded
