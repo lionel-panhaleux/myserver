@@ -1,34 +1,35 @@
 ---
 - name: Ensure site root folder is present
-  file:
-      state: directory
-      path: "{{ r.app_root }}"
-      owner: "{{ username }}"
-      mode: 0755
+  ansible.builtin.file:
+    state: directory
+    path: "{{ r.app_root }}"
+    owner: "{{ username }}"
+    mode: 0755
 
 - name: Install Python requirements
-  become: "no"
+  become: false
   tags:
-      - deploy
-      - skip_ansible_lint
+    - deploy
+    - skip_ansible_lint
   pip:
-      chdir: "{{ r.app_root }}"
-      name: "{{ r.package }}"
-      state: latest
-      virtualenv: "{{ r.app_root }}/venv"
-      virtualenv_command: /usr/bin/python3 -m venv
+    chdir: "{{ r.app_root }}"
+    name: "{{ r.package }}"
+    state: latest
+    virtualenv: "{{ r.app_root }}/venv"
+    virtualenv_command: /usr/bin/python3 -m venv
 
 - name: Add service
-  template:
-      src: service.j2
-      dest: "/etc/systemd/system/{{ r.app_name }}.service"
+  ansible.builtin.template:
+    src: service.j2
+    dest: "/etc/systemd/system/{{ r.app_name }}.service"
+    mode: 0644
 
 - name: Restart the service
   tags:
-      - deploy
-      - restart
-  systemd:
-      name: "{{ r.app_name }}"
-      daemon_reload: "yes"
-      enabled: "yes"
-      state: restarted
+    - deploy
+    - restart
+  ansible.builtin.systemd:
+    name: "{{ r.app_name }}"
+    daemon_reload: "yes"
+    enabled: "yes"
+    state: restarted

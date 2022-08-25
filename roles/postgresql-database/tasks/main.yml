@@ -1,0 +1,57 @@
+---
+- name: "Create database"
+  postgresql_db:
+    state: present
+    name: "{{ r.database }}"
+    conn_limit: "50"
+    encoding: UTF8
+    lc_ctype: C.UTF-8
+    lc_collate: C.UTF-8
+  become: true
+  become_user: postgres
+
+- name: "Create user"
+  postgresql_user:
+    state: present
+    name: "{{ r.user }}"
+    password: "{{ r.password }}"
+    expires: "infinity"
+    db: "{{ r.database }}"
+    priv: "ALL"
+  environment:
+    PGOPTIONS: "-c password_encryption=scram-sha-256"
+  become: true
+  become_user: postgres
+
+- name: Grant user local access using password auth
+  community.postgresql.postgresql_pg_hba:
+    dest: /etc/postgresql/13/main/pg_hba.conf
+    contype: local
+    users: "{{ r.user }}"
+    databases: "{{ r.database }}"
+    method: scram-sha-256
+
+- name: Set log destination to syslog
+  community.postgresql.postgresql_set:
+    name: log_destination
+    value: syslog
+
+- name: Set statement timeout to 5s
+  community.postgresql.postgresql_set:
+    name: statement_timeout
+    value: 5000
+
+- name: Set lock timeout to 5s
+  community.postgresql.postgresql_set:
+    name: lock_timeout
+    value: 5000
+
+- name: Set Idle in transation timeout to 10min
+  community.postgresql.postgresql_set:
+    name: idle_in_transaction_session_timeout
+    value: 300000
+
+- name: Reload PostgreSQL service
+  ansible.builtin.service:
+    name: postgresql
+    state: reloaded

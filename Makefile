@@ -11,3 +11,4 @@ quality: yamllint ansible-lint
 update:
 	pip install -U pip setuptools
 	pip install -r requirements.txt -U
+	ansible-galaxy install -r requirements.yml 

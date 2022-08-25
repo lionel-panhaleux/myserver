@@ -21,6 +21,12 @@ You should be able to connect to the server without password
 ssh <username>@<hostname_or_ip>
 ```
 
+Install required Ansible packages
+
+```
+ansible-galaxy install -r requirements.yml
+```
+
 Now run the initial setup
 
 ```bash

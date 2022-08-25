@@ -5,7 +5,9 @@
     dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.https.conf"
 
 - name: Reload nginx
-  tags: [deploy]
+  tags:
+    - deploy
+    - certs
   service:
     name: nginx
     state: reloaded

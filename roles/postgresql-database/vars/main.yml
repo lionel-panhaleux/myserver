@@ -1,0 +1,5 @@
+---
+r:
+  database: "{{ pd_database }}"
+  user: "{{ pd_user }}"
+  password: "{{ pd_password }}"
