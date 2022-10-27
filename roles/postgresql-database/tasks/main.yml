@@ -35,21 +35,29 @@
   community.postgresql.postgresql_set:
     name: log_destination
     value: syslog
+  become: true
+  become_user: postgres
 
 - name: Set statement timeout to 5s
   community.postgresql.postgresql_set:
     name: statement_timeout
     value: 5000
+  become: true
+  become_user: postgres
 
 - name: Set lock timeout to 5s
   community.postgresql.postgresql_set:
     name: lock_timeout
     value: 5000
+  become: true
+  become_user: postgres
 
 - name: Set Idle in transation timeout to 10min
   community.postgresql.postgresql_set:
     name: idle_in_transaction_session_timeout
     value: 300000
+  become: true
+  become_user: postgres
 
 - name: Reload PostgreSQL service
   ansible.builtin.service:
