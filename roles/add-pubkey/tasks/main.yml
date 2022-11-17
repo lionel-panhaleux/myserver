@@ -1,0 +1,6 @@
+---
+- name: Transfer SSH key
+  ansible.builtin.authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ r.pubkey }}"

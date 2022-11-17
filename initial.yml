@@ -1,28 +1,31 @@
 ---
-- hosts: all
-  become: "yes"
+- name: Server bootstrap
+  hosts: all
+  become: true
   # become_method: su
-  gather_facts: "no"
+  gather_facts: false
 
   vars:
       username: lpanhaleux
 
   pre_tasks:
       - name: Install base packages
-        raw: apt-get -y install python sudo
+        ansible.builtin.raw: apt-get -y install python sudo
         tags:
             - skip_ansible_lint
 
   roles:
       - role: setup-base-user
+      - role: add-pukey
+        pubkey_file: ~/.ssh/id_rsa.pub
 
   post_tasks:
       - name: Remove SSH access for root user
-        lineinfile:
+        ansible.builtin.lineinfile:
             dest: /etc/ssh/sshd_config
             regexp: "^#?PermitRootLogin"
             line: "PermitRootLogin no"
       - name: Restart SSH
-        service:
+        ansible.builtin.service:
             name: ssh
             state: restarted

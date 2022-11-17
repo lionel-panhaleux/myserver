@@ -1,22 +1,19 @@
 ---
-- hosts: krcg
-  become: "yes"
-  gather_facts: "no"
+- name: Deploy the KRCG API on api.krcg.org
+  hosts: krcg
+  become: true
+  gather_facts: false
   vars:
       username: lpanhaleux
   roles:
       - role: register-ssl
-        rs_server_name: api.krcg.org
-
-      - role: register-ssl
-        rs_server_name: v1.api.krcg.org
+        rs_server_name: v2.api.krcg.org
 
       - role: flask-backend
-        fb_package: krcg
-        fb_pip_target: "krcg[web]==1.11"
-        fb_uwsgi_entrypoint: "krcg.wsgi:application"
-        fb_server_name: v1.api.krcg.org
-        fb_port: 8000
+        fb_package: krcg-api
+        fb_uwsgi_entrypoint: "krcg_api.wsgi:application"
+        fb_server_name: api.krcg.org
+        fb_port: 8003
         fb_env:
             GITHUB_USERNAME: "codex-krcg"
             GITHUB_TOKEN: !vault |
@@ -30,5 +27,6 @@
 
       - role: backend-website
         tags: backend
-        pw_server_name: v1.api.krcg.org
-        pw_port: 8000
+        pw_server_name: api.krcg.org
+        pw_alternate_server_name: v2.api.krcg.org
+        pw_port: 8003

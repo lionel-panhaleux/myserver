@@ -1,17 +1,17 @@
 ---
 - name: Ensure site root folder is present
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ r.site_root }}/dist"
     owner: "{{ username }}"
     mode: 0755
 
 - name: Add HTTPS site configuration
-  template:
+  ansible.builtin.template:
     src: https.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.https.conf"
 
 - name: Reload nginx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded

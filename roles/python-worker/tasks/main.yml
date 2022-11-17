@@ -11,7 +11,7 @@
   tags:
     - deploy
     - skip_ansible_lint
-  pip:
+  ansible.builtin.pip:
     chdir: "{{ r.app_root }}"
     name: "{{ r.package }}"
     state: latest

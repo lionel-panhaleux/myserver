@@ -1,7 +1,8 @@
 ---
-- hosts: krcg
-  become: 'yes'
-  gather_facts: 'no'
+- name: Deploy the Codex codex-of-the-damned.org
+  hosts: krcg
+  become: true
+  gather_facts: false
   vars:
     username: lpanhaleux
   roles:

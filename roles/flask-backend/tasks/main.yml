@@ -1,48 +1,48 @@
 ---
 - name: Ensure site root folder is present
-  file:
-      state: directory
-      path: "{{ r.site_root }}"
-      owner: "{{ username }}"
-      mode: 0755
+  ansible.builtin.file:
+    state: directory
+    path: "{{ r.site_root }}"
+    owner: "{{ username }}"
+    mode: 0755
 
 - name: Setup uwsgi
-  apt:
-      state: present
-      name:
-          - uwsgi
-          - uwsgi-plugin-python3
-          - python-pip
-          - python3-venv
+  ansible.builtin.apt:
+    state: present
+    name:
+      - uwsgi
+      - uwsgi-plugin-python3
+      - python-pip
+      - python3-venv
 
 - name: Install Python requirements
-  become: "no"
+  become: false
   tags:
-      - deploy
-      - skip_ansible_lint
-  pip:
-      chdir: "{{ r.site_root }}"
-      name: "{{ r.pip_target | default(r.package) }}"
-      state: latest
-      virtualenv: "{{ r.site_root }}/venv"
-      virtualenv_command: /usr/bin/python3 -m venv
+    - deploy
+    - skip_ansible_lint
+  ansible.builtin.pip:
+    chdir: "{{ r.site_root }}"
+    name: "{{ r.pip_target | default(r.package) }}"
+    state: latest
+    virtualenv: "{{ r.site_root }}/venv"
+    virtualenv_command: /usr/bin/python3 -m venv
 
 - name: Add uwsgi configuration
-  template:
-      src: uwsgi.ini.j2
-      dest: "{{ r.site_root }}/uwsgi.ini"
+  ansible.builtin.template:
+    src: uwsgi.ini.j2
+    dest: "{{ r.site_root }}/uwsgi.ini"
 
 - name: Add service
-  template:
-      src: service.j2
-      dest: "/etc/systemd/system/{{ r.server_name }}.service"
+  ansible.builtin.template:
+    src: service.j2
+    dest: "/etc/systemd/system/{{ r.server_name }}.service"
 
 - name: Restart the service
   tags:
-      - deploy
-      - restart
-  systemd:
-      name: "{{ r.server_name }}"
-      daemon_reload: "yes"
-      enabled: "yes"
-      state: restarted
+    - deploy
+    - restart
+  ansible.builtin.systemd:
+    name: "{{ r.server_name }}"
+    daemon_reload: "yes"
+    enabled: "yes"
+    state: restarted

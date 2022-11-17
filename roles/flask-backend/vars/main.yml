@@ -1,10 +1,10 @@
 ---
 r:
-  package: "{{fb_package}}"
-  uwsgi_entrypoint: "{{fb_uwsgi_entrypoint}}"
-  pip_target: "{{fb_pip_target | default(fb_package)}}"
-  server_name: "{{fb_server_name}}"
-  site_root: "/home/{{username}}/projects/{{fb_server_name}}"
-  media_path: "/home/{{username}}/projects/{{fb_server_name}}/media"
-  port: "{{fb_port}}"
-  env_vars: "{{fb_env | default({})}}"
+  package: "{{ fb_package }}"
+  uwsgi_entrypoint: "{{ fb_uwsgi_entrypoint }}"
+  pip_target: "{{ fb_pip_target | default(fb_package) }}"
+  server_name: "{{ fb_server_name }}"
+  site_root: "/home/{{ username }}/projects/{{ fb_server_name }}"
+  media_path: "/home/{{ username }}/projects/{{ fb_server_name }}/media"
+  port: "{{ fb_port }}"
+  env_vars: "{{ fb_env | default({}) }}"

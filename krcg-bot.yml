@@ -1,7 +1,8 @@
 ---
-- hosts: krcg2
-  become: "yes"
-  gather_facts: "no"
+- name: Deploy KRCG Discord bot
+  hosts: krcg2
+  become: true
+  gather_facts: false
   vars:
     username: lpanhaleux
   roles:

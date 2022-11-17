@@ -1,6 +1,6 @@
 ---
 - name: Add HTTPS site configuration
-  template:
+  ansible.builtin.template:
     src: https.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.https.conf"
 
@@ -8,6 +8,6 @@
   tags:
     - deploy
     - certs
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded

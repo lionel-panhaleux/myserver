@@ -1,0 +1,10 @@
+---
+- name: Add public key
+  hosts: krcg
+  become: true
+  gather_facts: false
+  vars:
+    username: lpanhaleux
+  roles:
+    - role: add-pubkey
+      pubkey_file: "{{ pubkey_file }}"

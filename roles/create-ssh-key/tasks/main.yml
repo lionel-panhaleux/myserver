@@ -1,5 +1,5 @@
 ---
 - name: Create server SSH key
-  openssh_keypair:
+  ansible.builtin.openssh_keypair:
     path: "~/.ssh/id_rsa"
   register: "public_key"

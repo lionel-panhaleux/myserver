@@ -1,7 +1,7 @@
 ---
 r:
-  server_name: "{{pw_server_name}}"
-  alternate_server_name: "{{pw_alternate_server_name|default(False)}}"
-  port: "{{pw_port}}"
-  site_root: "/home/{{username}}/projects/{{pw_server_name}}"
-  is_websocket: "{{pw_is_websocket | default(False)}}"
+  server_name: "{{ pw_server_name }}"
+  alternate_server_name: "{{ pw_alternate_server_name|default(False) }}"
+  port: "{{ pw_port }}"
+  site_root: "/home/{{ username }}/projects/{{ pw_server_name }}"
+  is_websocket: "{{ pw_is_websocket | default(False) }}"

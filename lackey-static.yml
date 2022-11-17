@@ -1,5 +1,5 @@
 ---
-- name: Deploy static.krcg.org
+- name: Deploy LackeyCCG plugin server
   hosts: krcg
   become: true
   gather_facts: false
@@ -7,9 +7,9 @@
       username: lpanhaleux
   roles:
       - role: register-ssl
-        rs_server_name: static.krcg.org
+        rs_server_name: lackey.krcg.org
 
       - role: static-website
-        sw_server_name: static.krcg.org
+        sw_server_name: lackey.krcg.org
         sw_cache: true
         sw_autoindex: true

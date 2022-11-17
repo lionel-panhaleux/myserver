@@ -1,0 +1,4 @@
+---
+r:
+  username: "{{ username }}"
+  pubkey: "{{ lookup('file', pubkey_file) }}"
