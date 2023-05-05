@@ -60,6 +60,9 @@
   become_user: postgres
 
 - name: Reload PostgreSQL service
+  tags:
+    - deploy
+    - restart
   ansible.builtin.service:
     name: postgresql
     state: reloaded
