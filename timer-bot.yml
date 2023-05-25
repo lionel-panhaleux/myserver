@@ -12,6 +12,7 @@
       pw_app_name: timer-bot
       pw_command: timer-bot
       pw_env:
+        PYTHONOPTIMIZE: 1
         DISCORD_TOKEN: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           65633131653062356535643434613731333339323432663736346165656239623661623534313533

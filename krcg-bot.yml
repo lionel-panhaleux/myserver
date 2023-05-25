@@ -11,6 +11,7 @@
       pw_app_name: krcg-bot
       pw_command: krcg-bot
       pw_env:
+        PYTHONOPTIMIZE: 1
         DISCORD_TOKEN: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           39303034383964396265343166623564333736376362393065653034633661383066383162393934

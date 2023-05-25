@@ -14,6 +14,8 @@
       fb_uwsgi_entrypoint: "codex_of_the_damned:app"
       fb_server_name: codex-beta.krcg.org
       fb_port: 8001
+      fb_env:
+        PYTHONOPTIMIZE: 1
 
     - role: backend-website
       tags: backend

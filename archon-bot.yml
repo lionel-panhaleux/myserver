@@ -21,6 +21,7 @@
       pw_app_name: archon-bot
       pw_command: archon-bot
       pw_env:
+        PYTHONOPTIMIZE: 1
         DISCORD_TOKEN: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           36383530333131373539303962323633333031373164663334303835343135623237666361306465

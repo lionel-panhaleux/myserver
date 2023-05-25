@@ -15,6 +15,7 @@
         fb_server_name: api.krcg.org
         fb_port: 8003
         fb_env:
+            PYTHONOPTIMIZE: 1
             GITHUB_USERNAME: "codex-krcg"
             GITHUB_TOKEN: !vault |
                       $ANSIBLE_VAULT;1.1;AES256
