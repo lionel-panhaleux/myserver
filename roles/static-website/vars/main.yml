@@ -4,4 +4,5 @@ r:
     alternate_server_name: "{{ sw_alternate_server_name | default(False) }}"
     site_root: "/home/{{ username }}/projects/{{ sw_server_name }}"
     cache: "{{ sw_cache | default(False) }}"
+    cachebust: "{{ sw_cachebust | default(False) }}"
     autoindex: "{{ sw_autoindex | default(False) }}"

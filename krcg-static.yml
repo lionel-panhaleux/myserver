@@ -12,4 +12,5 @@
       - role: static-website
         sw_server_name: static.krcg.org
         sw_cache: true
+        sw_cachebust: true
         sw_autoindex: true

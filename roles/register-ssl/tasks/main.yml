@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: http.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.http.conf"
+    mode: '644'
 
 - name: Reload nginx
   tags:

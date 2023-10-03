@@ -53,27 +53,31 @@ server {
     image/svg+xml;
   gzip_static on;
 
+{% if r.cachebust %}
+  rewrite ^/bust/\d+/(.*)$ /$1 last;
+{% endif %}
+
 {% if r.cache %}
   location ~* \.(?:htm|html|js|css)$ {
     add_header Cache-Control "public, must-revalidate, max-age=300";
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 300;
   }
   location ~* \.(?:json)$ {
     add_header Cache-Control "public, must-revalidate, max-age=3600";
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 3600;
   }
 {% else %}
-  location ~* \.(?:html|js|css|json)$ {
+  location ~* \.(?:htm|html|js|css|json)$ {
     add_header Cache-Control "public, must-revalidate, max-age=0";
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 3600;
   }
 {% endif %}
@@ -81,13 +85,13 @@ server {
     add_header Cache-Control "public, must-revalidate, max-age 3600";
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 3600;
   }
   location / {
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS';
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 300;
     {% if r.autoindex %}
     autoindex on;
