@@ -4,3 +4,6 @@
 # editors & OS
 .vscode/
 *.DS_Store
+
+# DB backups
+backups/

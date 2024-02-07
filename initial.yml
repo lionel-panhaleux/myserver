@@ -8,15 +8,15 @@
   vars:
       username: lpanhaleux
 
-  pre_tasks:
-      - name: Install base packages
-        ansible.builtin.raw: apt-get -y install python sudo
-        tags:
-            - skip_ansible_lint
+  # pre_tasks:
+  #     - name: Install base packages
+  #       ansible.builtin.raw: apt-get -y install python sudo
+  #       tags:
+  #           - skip_ansible_lint
 
   roles:
       - role: setup-base-user
-      - role: add-pukey
+      - role: add-pubkey
         pubkey_file: ~/.ssh/id_rsa.pub
 
   post_tasks:

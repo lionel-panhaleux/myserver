@@ -1,6 +1,6 @@
 ---
 - name: "Create database"
-  postgresql_db:
+  community.postgresql.postgresql_db:
     state: present
     name: "{{ r.database }}"
     conn_limit: "50"
@@ -11,7 +11,7 @@
   become_user: postgres
 
 - name: "Create user"
-  postgresql_user:
+  community.postgresql.postgresql_user:
     state: present
     name: "{{ r.user }}"
     password: "{{ r.password }}"
@@ -25,11 +25,21 @@
 
 - name: Grant user local access using password auth
   community.postgresql.postgresql_pg_hba:
-    dest: /etc/postgresql/13/main/pg_hba.conf
+    dest: /etc/postgresql/15/main/pg_hba.conf
     contype: local
     users: "{{ r.user }}"
     databases: "{{ r.database }}"
     method: scram-sha-256
+
+- name: Grant ALL privileges on schema public
+  community.postgresql.postgresql_privs:
+    db: "{{ r.database }}"
+    privs: ALL
+    type: schema
+    objs: public
+    role: "{{ r.user }}"
+  become: true
+  become_user: postgres
 
 - name: Set log destination to syslog
   community.postgresql.postgresql_set:

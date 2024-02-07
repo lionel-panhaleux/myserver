@@ -1,6 +1,6 @@
 ---
 - name: Deploy the Codex beta server codex-beta.krcg.org
-  hosts: krcg
+  hosts: all
   become: true
   gather_facts: false
   vars:

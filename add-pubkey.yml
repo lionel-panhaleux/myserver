@@ -1,6 +1,6 @@
 ---
 - name: Add public key
-  hosts: krcg
+  hosts: all
   become: true
   gather_facts: false
   vars:

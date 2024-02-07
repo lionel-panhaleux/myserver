@@ -1,0 +1,10 @@
+---
+- name: Backup the archon Discord bot database
+  hosts: krcg
+  become: true
+  gather_facts: false
+  vars:
+    username: lpanhaleux
+  roles:
+    - role: postgresql-backup
+      pb_database: archon

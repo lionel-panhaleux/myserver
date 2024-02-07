@@ -1,0 +1,3 @@
+---
+r:
+  database: "{{ pb_database }}"

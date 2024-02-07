@@ -27,10 +27,10 @@ Install required Ansible packages
 ansible-galaxy install -r requirements.yml
 ```
 
-Now run the initial setup
+Now run the initial setup, maybe limit to the server you're installing
 
 ```bash
-ansible-playbook --user <provided_user> initial.yml
+ansible-playbook --user <provided_user> initial.yml -l krcg_gra
 ```
 
 ## Other setup steps
@@ -49,6 +49,24 @@ $> cd ~/.ssh
 $> cat id_rsa.pub
 ```
 
+### Setup a deployment public key
+
+You might need an additional public key for deployments.
+It is used by Github automation to deploy purely static websites, like `static.krcg.org`
+and `lackey.krcg.org`. Generate _another_ SSH key, upload the private key to Github,
+and the public key to your server, like this:
+
+```bash
+ansible-playbook add-pubkey.yml -e "pubkey_file=~/.ssh/deploy_key.pub"
+```
+
+You might also need to update Giuthub secrets accordingly, including the host pubkey.
+Just run this command locally, and paste one of the keys as your Github secret.
+
+```bash
+ssh-keyscan krcg.org
+```
+
 ### Setup the KRCG API
 
 You need a personal token for the codex-krcg Github user,
@@ -62,8 +80,7 @@ Copy the resulting string to `krcg-api.yaml` (replace the old `GITHUB_PASSWORD:`
 You can now deploy:
 
 ```bash
-ansible-playbook krcg-api-v1.yml
-ansible-playbook krcg-api-v2.yml
+ansible-playbook krcg-api.yml
 ```
 
 ### Setup the KRCG Discord Bot
@@ -96,6 +113,22 @@ You can now deploy:
 ansible-playbook timer-bot.yml
 ```
 
+### Archon Bot database operations
+
+Get a backup of the Archon database:
+
+```bash
+ansible-playbook archon-backup.yml
+```
+
+The backup is saved in your local `backups` folder. You can restore it with:
+
+```bash
+ansible-playbook archon-restore.yml -e "backup_file=2024-02-06-21:22:39/archon.dump.gz"
+```
+
+Note you should provide the backup file name _without_ the `backups/` folder prefix.
+
 ### Setup the Codex website
 
 ```bash
@@ -109,4 +142,10 @@ For a simple package update (no change on the service or webserver configuration
 
 ```bash
 ansible-playbook codex.yml --tags=deploy
+```
+
+If you only need to update TLS certificates, use:
+
+```bash
+ansible-playbook codex.yml --tags=certs
 ```

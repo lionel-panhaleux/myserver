@@ -1,13 +1,13 @@
 ---
 - name: Deploy the KRCG API on api.krcg.org
-  hosts: krcg
+  hosts: all
   become: true
   gather_facts: false
   vars:
       username: lpanhaleux
   roles:
       - role: register-ssl
-        rs_server_name: v2.api.krcg.org
+        rs_server_name: api.krcg.org
 
       - role: flask-backend
         fb_package: krcg-api
@@ -29,5 +29,4 @@
       - role: backend-website
         tags: backend
         pw_server_name: api.krcg.org
-        pw_alternate_server_name: v2.api.krcg.org
         pw_port: 8003

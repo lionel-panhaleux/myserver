@@ -12,7 +12,6 @@
     name:
       - uwsgi
       - uwsgi-plugin-python3
-      - python-pip
       - python3-venv
 
 - name: Install Python requirements

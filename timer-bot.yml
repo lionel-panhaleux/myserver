@@ -1,7 +1,7 @@
 ---
-- hosts: krcg2
-  become: "yes"
-  gather_facts: "no"
+- hosts: krcg_gra
+  become: true
+  gather_facts: false
   vars:
     username: lpanhaleux
   roles:
