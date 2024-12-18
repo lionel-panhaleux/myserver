@@ -1,0 +1,15 @@
+[Unit]
+Description={{ r.server_name }} service
+After=nginx.service
+
+[Service]
+Restart=always
+WorkingDirectory={{r.site_root}}
+TimeoutStartSec=5
+{% for key, value in r.env_vars.items() %}
+Environment="{{key}}={{value}}"
+{% endfor %}
+ExecStart={{ r.site_root }}/venv/bin/uvicorn --port {{ r.port }} --log-level warning {{ r.asgi_entrypoint }}
+
+[Install]
+WantedBy=multi-user.target

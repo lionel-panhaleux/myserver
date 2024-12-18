@@ -1,6 +1,6 @@
 ---
 - name: Backup the archon Discord bot database
-  hosts: krcg
+  hosts: krcg_gra
   become: true
   gather_facts: false
   vars:
