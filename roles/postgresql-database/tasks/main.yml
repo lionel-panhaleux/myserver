@@ -17,7 +17,6 @@
     password: "{{ r.password }}"
     expires: "infinity"
     db: "{{ r.database }}"
-    priv: "ALL"
   environment:
     PGOPTIONS: "-c password_encryption=scram-sha-256"
   become: true

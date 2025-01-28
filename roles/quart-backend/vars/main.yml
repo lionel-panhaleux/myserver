@@ -1,0 +1,10 @@
+---
+r:
+  package: "{{ qb_package }}"
+  asgi_entrypoint: "{{ qb_asgi_entrypoint }}"
+  pip_target: "{{ qb_pip_target | default(qb_package) }}"
+  server_name: "{{ qb_server_name }}"
+  site_root: "/home/{{ username }}/projects/{{ qb_server_name }}"
+  env_vars: "{{ qb_env | default({}) }}"
+  port: "{{ qb_port }}"
+

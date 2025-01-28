@@ -6,6 +6,15 @@
     owner: "{{ username }}"
     mode: 0755
 
+- name: Install hypercorn
+  become: false
+  ansible.builtin.pip:
+    chdir: "{{ r.site_root }}"
+    state: latest
+    name: hypercorn
+    virtualenv: "{{ r.site_root }}/venv"
+    virtualenv_command: /usr/bin/python3 -m venv
+
 - name: Install Python requirements
   become: false
   tags:
@@ -16,12 +25,6 @@
     name: "{{ r.pip_target | default(r.package) }}"
     state: latest
     virtualenv: "{{ r.site_root }}/venv"
-    virtualenv_command: /usr/bin/python3 -m venv
-
-- name: Add uwsgi configuration
-  ansible.builtin.template:
-    src: uwsgi.ini.j2
-    dest: "{{ r.site_root }}/uwsgi.ini"
 
 - name: Add service
   ansible.builtin.template:
@@ -37,3 +40,16 @@
     daemon_reload: "yes"
     enabled: "yes"
     state: restarted
+
+- name: Add HTTPS site configuration
+  ansible.builtin.template:
+    src: https.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ r.server_name }}.https.conf"
+
+- name: Reload nginx
+  tags:
+    - deploy
+    - certs
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
