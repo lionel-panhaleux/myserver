@@ -1,5 +1,6 @@
 # ansible
 .vault-password-file.txt
+.ansible/
 
 # editors & OS
 .vscode/
