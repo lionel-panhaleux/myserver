@@ -4,8 +4,9 @@ After=nginx.service
 
 [Service]
 Restart=always
-WorkingDirectory={{r.site_root}}
+RuntimeMaxSec=1d
 TimeoutStartSec=5
+WorkingDirectory={{r.site_root}}
 {% for key, value in r.env_vars.items() %}
 Environment="{{key}}={{value}}"
 {% endfor %}
