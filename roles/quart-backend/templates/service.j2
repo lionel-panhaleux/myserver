@@ -3,10 +3,11 @@ Description={{ r.server_name }} service
 After=nginx.service
 
 [Service]
+Restart=always
+RuntimeMaxSec=1d
 WorkingDirectory={{ r.site_root }}
 TimeoutStartSec=30
 ExecStart={{ r.site_root }}/venv/bin/hypercorn -b '127.0.0.1:{{r.port}}' -w 1 --access-logfile - --error-logfile - '{{ r.asgi_entrypoint }}'
-Restart=always
 {% for key, value in r.env_vars.items() %}
 Environment="{{ key }}={{ value }}"
 {% endfor %}

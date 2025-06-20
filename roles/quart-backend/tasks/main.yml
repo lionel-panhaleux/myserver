@@ -24,17 +24,7 @@
     chdir: "{{ r.site_root }}"
     name: "{{ r.pip_target | default(r.package) }}"
     state: latest
-    virtualenv: "{{ r.site_root }}/venv"
-
-- name: Ensure Python requirements update
-  become: false
-  tags:
-    - deploy
-    - skip_ansible_lint
-  ansible.builtin.pip:
-    chdir: "{{ r.site_root }}"
-    name: "{{ r.pip_target | default(r.package) }}"
-    state: latest
+    extra_args: "--no-cache-dir"
     virtualenv: "{{ r.site_root }}/venv"
 
 - name: Add service
