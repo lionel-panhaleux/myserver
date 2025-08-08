@@ -6,6 +6,9 @@ After=network-online.target
 Type=simple
 User={{username}}
 Restart=always
+{% if r.daily_restart %}
+RuntimeMaxSec=1d
+{% endif %}
 WorkingDirectory={{r.app_root}}
 {% for key, value in r.env_vars.items() %}
 Environment={{key}}={{value}}

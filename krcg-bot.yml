@@ -10,6 +10,7 @@
       pw_package: krcg-bot
       pw_app_name: krcg-bot
       pw_command: krcg-bot
+      pw_daily_restart: true
       pw_env:
         PYTHONOPTIMIZE: 1
         DISCORD_TOKEN: !vault |

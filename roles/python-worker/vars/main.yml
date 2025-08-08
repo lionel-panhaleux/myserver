@@ -5,3 +5,4 @@ r:
   command: "{{ pw_command }}"
   app_name: "{{ pw_app_name }}"
   env_vars: "{{ pw_env }}"
+  daily_restart: "{{ pw_daily_restart | default(false) }}"
