@@ -16,7 +16,6 @@
     name: "{{ r.user }}"
     password: "{{ r.password }}"
     expires: "infinity"
-    db: "{{ r.database }}"
   environment:
     PGOPTIONS: "-c password_encryption=scram-sha-256"
   become: true
@@ -32,7 +31,7 @@
 
 - name: Grant ALL privileges on schema public
   community.postgresql.postgresql_privs:
-    db: "{{ r.database }}"
+    login_db: "{{ r.database }}"
     privs: ALL
     type: schema
     objs: public
@@ -41,29 +40,29 @@
   become_user: postgres
 
 - name: Set log destination to syslog
-  community.postgresql.postgresql_set:
-    name: log_destination
+  community.postgresql.postgresql_alter_system:
+    param: log_destination
     value: syslog
   become: true
   become_user: postgres
 
 - name: Set statement timeout to 5s
-  community.postgresql.postgresql_set:
-    name: statement_timeout
+  community.postgresql.postgresql_alter_system:
+    param: statement_timeout
     value: 5000
   become: true
   become_user: postgres
 
 - name: Set lock timeout to 5s
-  community.postgresql.postgresql_set:
-    name: lock_timeout
+  community.postgresql.postgresql_alter_system:
+    param: lock_timeout
     value: 5000
   become: true
   become_user: postgres
 
 - name: Set Idle in transation timeout to 10min
-  community.postgresql.postgresql_set:
-    name: idle_in_transaction_session_timeout
+  community.postgresql.postgresql_alter_system:
+    param: idle_in_transaction_session_timeout
     value: 300000
   become: true
   become_user: postgres
