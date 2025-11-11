@@ -4,7 +4,7 @@
     state: directory
     path: "{{ r.site_root }}"
     owner: "{{ username }}"
-    mode: 0755
+    mode: "755"
 
 - name: Install Python requirements
   become: false
@@ -15,9 +15,18 @@
     chdir: "{{ r.site_root }}"
     name: "{{ r.pip_target }}"
     state: latest
-    extra_args: "--no-cache-dir"
+    extra_args: "--upgrade --no-cache-dir"
     virtualenv: "{{ r.site_root }}/venv"
     virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Add env file
+  tags:
+    - deploy
+  ansible.builtin.template:
+    src: env.j2
+    dest: "/etc/profile.d/{{ r.server_name }}.env"
+    owner: "{{ username }}"
+    mode: "600"
 
 - name: Add service
   ansible.builtin.template:
