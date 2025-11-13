@@ -8,16 +8,10 @@
   vars:
       username: lpanhaleux
 
-  # pre_tasks:
-  #     - name: Install base packages
-  #       ansible.builtin.raw: apt-get -y install python sudo
-  #       tags:
-  #           - skip_ansible_lint
-
   roles:
       - role: setup-base-user
       - role: add-pubkey
-        pubkey_file: ~/.ssh/id_rsa.pub
+        pubkey_file: ~/.ssh/krcg_deploy.pub
 
   post_tasks:
       - name: Remove SSH access for root user

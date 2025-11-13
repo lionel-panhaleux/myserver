@@ -1,6 +1,6 @@
 ---
 - name: Deploy the KRCG API on api.krcg.org
-  hosts: all
+  hosts: krcg_gra, krcg_sbg
   become: true
   gather_facts: false
   vars:

@@ -1,6 +1,6 @@
 ---
 - name: Deploy the Archon beta website on archon.krcg.org
-  hosts: krcg_gra
+  hosts: krcg_mun
   become: true
   gather_facts: false
   vars:

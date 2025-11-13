@@ -23,6 +23,7 @@
       - postgresql-client
       - libpq-dev
       - libpq5
+      - python3-pip
       - python3-psycopg2
       - acl
       - python3-certbot-nginx
