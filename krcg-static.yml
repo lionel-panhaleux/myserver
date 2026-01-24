@@ -1,6 +1,6 @@
 ---
 - name: Deploy static.krcg.org
-  hosts: all
+  hosts: krcg_sbg
   become: true
   gather_facts: false
   vars:

@@ -1,6 +1,6 @@
 ---
 - name: Deploy the Codex codex-of-the-damned.org
-  hosts: all
+  hosts: krcg_sbg
   become: true
   gather_facts: false
   vars:
