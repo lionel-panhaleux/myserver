@@ -53,34 +53,35 @@ server {
     image/svg+xml;
   gzip_static on;
 
-{% if r.cachebust %}
-  rewrite ^/bust/\d+/(.*)$ /$1 last;
-{% endif %}
-
-{% if r.cache %}
-  location ~* \.(?:htm|html|js|css)$ {
-    add_header Cache-Control "public, must-revalidate, max-age=300";
+  # Service worker files: must not be cached
+  location ~ ^/(sw|registerSW|workbox-).*\.js$ {
+    add_header Cache-Control "no-cache, no-store, must-revalidate";
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
     add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 300;
   }
-  location ~* \.(?:json)$ {
+
+  # Vite hashed assets: immutable cache
+  location /assets/ {
+    add_header Cache-Control "public, max-age=31536000, immutable";
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Headers' '*' always;
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
+    add_header 'Access-Control-Max-Age' 3600;
+  }
+
+  # PWA manifest: short TTL
+  location = /manifest.webmanifest {
+    types { application/manifest+json webmanifest; }
     add_header Cache-Control "public, must-revalidate, max-age=3600";
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
     add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 3600;
   }
-{% else %}
-  location ~* \.(?:htm|html|js|css|json)$ {
-    add_header Cache-Control "public, must-revalidate, max-age=0";
-    add_header 'Access-Control-Allow-Origin' '*' always;
-    add_header 'Access-Control-Allow-Headers' '*' always;
-    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
-    add_header 'Access-Control-Max-Age' 3600;
-  }
-{% endif %}
+
+  # Images and icons: moderate cache
   location ~* \.(?:jpg|jpeg|png|svg|gif|webp|ico|avif)$ {
     add_header Cache-Control "public, must-revalidate, max-age=3600";
     add_header 'Access-Control-Allow-Origin' '*' always;
@@ -88,15 +89,22 @@ server {
     add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 3600;
   }
+
+  # HTML and other files: no cache (always fresh)
+  location ~* \.(?:htm|html|css|json)$ {
+    add_header Cache-Control "public, must-revalidate, max-age=0";
+    add_header 'Access-Control-Allow-Origin' '*' always;
+    add_header 'Access-Control-Allow-Headers' '*' always;
+    add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
+    add_header 'Access-Control-Max-Age' 3600;
+  }
+
+  # SPA fallback: serve index.html for client-side routing
   location / {
+    try_files $uri $uri/ /index.html;
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Headers' '*' always;
     add_header 'Access-Control-Allow-Methods' 'HEAD, GET, OPTIONS, TRACE';
     add_header 'Access-Control-Max-Age' 300;
-    {% if r.autoindex %}
-    autoindex on;
-    autoindex_exact_size off;
-    autoindex_format html;
-    {% endif %}
   }
 }

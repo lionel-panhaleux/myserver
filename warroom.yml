@@ -1,0 +1,20 @@
+---
+- name: Deploy warroom.krcg.org
+  hosts: krcg_sbg
+  become: true
+  gather_facts: false
+  vars:
+      username: lpanhaleux
+  tasks:
+      - name: Build and sync warroom dist
+        ansible.posix.synchronize:
+            src: ../warroom-app/dist/
+            dest: /home/{{ username }}/projects/warroom.krcg.org/dist/
+            delete: true
+        become: false
+  roles:
+      - role: register-ssl
+        rs_server_name: warroom.krcg.org
+
+      - role: pwa-website
+        pwa_server_name: warroom.krcg.org

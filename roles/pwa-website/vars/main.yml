@@ -1,0 +1,5 @@
+---
+r:
+    server_name: "{{ pwa_server_name }}"
+    alternate_server_name: "{{ pwa_alternate_server_name | default(False) }}"
+    site_root: "/home/{{ username }}/projects/{{ pwa_server_name }}"
