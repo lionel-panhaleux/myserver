@@ -8,6 +8,7 @@
   roles:
       - role: register-ssl
         rs_server_name: static.krcg.org
+        rs_http_images: true
 
       - role: static-website
         sw_server_name: static.krcg.org
