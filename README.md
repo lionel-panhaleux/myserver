@@ -83,20 +83,12 @@ You can now deploy:
 ansible-playbook krcg-api.yml
 ```
 
-### Setup the KRCG Discord Bot
+### The KRCG Discord Bot
 
-You need to get the bot token from discord and use `ansible-vault` to encode it:
-
-```bash
-ansible-vault encrypt_string '<bot_token>' --name 'DISCORD_TOKEN'
-```
-
-Copy the resulting string to `krcg-bot.yaml` (replace the old `DISCORD_TOKEN:` value).
-You can now deploy:
-
-```bash
-ansible-playbook krcg-bot.yml
-```
+Not deployed from here. It has its own pipeline in `lionel-panhaleux/krcg-bot`
+under `ansible/`, which ships a released wheel to the same host and owns
+`krcg-bot.service`. Do not add a playbook for it back here: a PyPI install would
+overwrite that deploy, and the package is archived at 4.5.
 
 ### Setup the Timer Discord Bot
 
