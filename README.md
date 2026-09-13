@@ -105,22 +105,6 @@ You can now deploy:
 ansible-playbook timer-bot.yml
 ```
 
-### Archon Bot database operations
-
-Get a backup of the Archon database:
-
-```bash
-ansible-playbook archon-backup.yml
-```
-
-The backup is saved in your local `backups` folder. You can restore it with:
-
-```bash
-ansible-playbook archon-restore.yml -e "backup_file=2024-02-06-21:22:39/archon.dump.gz"
-```
-
-Note you should provide the backup file name _without_ the `backups/` folder prefix.
-
 ### Setup the Codex website
 
 ```bash
