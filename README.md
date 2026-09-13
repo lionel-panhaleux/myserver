@@ -111,10 +111,17 @@ same domains, and the old vhost files sort ahead of the new ones in
 `sites-enabled` — nginx would route those domains back to rebuilt uWSGI services,
 and `api.krcg.org` would stop following the `krcg_api_live` switch.
 
+### The War Room app
+
+`warroom.krcg.org` comes from `lionel-panhaleux/warroom-app` under `ansible/`, served
+from `/var/www/warroom` by the collection's `nginx_site` role. The `pwa-website` role
+went with `warroom.yml`. Do not re-add it: it would recreate the plain vhost files,
+which claim the same domain as the role's vhost.
+
 ## Updates
 
 If you only need to update TLS certificates, use the `certs` tag:
 
 ```bash
-ansible-playbook warroom.yml --tags=certs
+ansible-playbook krcg-static.yml --tags=certs
 ```
