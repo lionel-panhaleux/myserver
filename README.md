@@ -1,8 +1,9 @@
 # myserver
 
-Debian webserver deployment for
-[the Codex of the Damned](https://github.com/lionel-panhaleux/codex-of-the-damned)
-and [KRCG](https://github.com/lionel-panhaleux/krcg)
+Legacy Debian webserver deployment for the remaining
+[KRCG](https://github.com/lionel-panhaleux/krcg) static sites and the timer bot.
+Most apps have moved to their own `ansible/` or `deploy/` directory consuming the
+`lionel_panhaleux.server_setup` collection — see "Not deployed from here" below.
 
 ## Initial setup
 
@@ -67,41 +68,6 @@ Just run this command locally, and paste one of the keys as your Github secret.
 ssh-keyscan krcg.org
 ```
 
-### Setup the KRCG API
-
-You need a personal token for the codex-krcg Github user,
-use `ansible-vault` to encode it:
-
-```bash
-ansible-vault encrypt_string '<github_token>' --name 'GITHUB_TOKEN'
-```
-
-Copy the resulting string to `krcg-api.yaml` (replace the old `GITHUB_PASSWORD:` value).
-You can now deploy:
-
-```bash
-ansible-playbook krcg-api.yml
-```
-
-### The KRCG Discord Bot
-
-Not deployed from here. It has its own pipeline in `lionel-panhaleux/krcg-bot`
-under `ansible/`, which ships a released wheel to the same host and owns
-`krcg-bot.service`. Do not add a playbook for it back here: a PyPI install would
-overwrite that deploy, and the package is archived at 4.5.
-
-### The rulings and Archon websites
-
-Not deployed from here either. `rulings.krcg.org` comes from
-`vtes-biased/rulings-website` and `archon.krcg.org` from `vtes-biased/archon-vibe`,
-both under `ansible/` consuming the `lionel_panhaleux.server_setup` collection.
-Their playbooks and the `quart-backend`, `fastapi-backend` and
-`postgresql-database` roles were removed once the cutovers were confirmed live.
-
-Do not re-add a rulings playbook in particular: v2 made a one-way schema change
-to the shared `vtes-rulings` database, and the v1 app writes a corrupt row on its
-first login against it.
-
 ### Setup the Timer Discord Bot
 
 You need to get the bot token from discord and use `ansible-vault` to encode it:
@@ -117,23 +83,44 @@ You can now deploy:
 ansible-playbook timer-bot.yml
 ```
 
-### Setup the Codex website
+## Not deployed from here
 
-```bash
-ansible-playbook codex-beta.yml
-ansible-playbook codex.yml
-```
+Each of these has a pipeline of its own. Its playbook, and any role only it used,
+was removed from this repo once the replacement was confirmed live on the host.
+
+### The KRCG Discord Bot
+
+Its own pipeline in `lionel-panhaleux/krcg-bot` under `ansible/` ships a released
+wheel to the same host and owns `krcg-bot.service`. Do not add a playbook for it
+back here: a PyPI install would overwrite that deploy, and the package is archived
+at 4.5.
+
+### The rulings and Archon websites
+
+`rulings.krcg.org` comes from `vtes-biased/rulings-website` and `archon.krcg.org`
+from `vtes-biased/archon-vibe`, both under `ansible/`. The `quart-backend`,
+`fastapi-backend` and `postgresql-database` roles went with their playbooks.
+
+Do not re-add a rulings playbook in particular: v2 made a one-way schema change
+to the shared `vtes-rulings` database, and the v1 app writes a corrupt row on its
+first login against it.
+
+### The KRCG API and the Codex
+
+`api.krcg.org` (served by `v3.api.krcg.org`, alongside `v4.api.krcg.org`) comes from
+`lionel-panhaleux/krcg-api`, and `codex-of-the-damned.org` / `codex-beta.krcg.org`
+from `lionel-panhaleux/codex-of-the-damned`, both under `deploy/`. The
+`flask-backend` and `backend-website` roles went with their playbooks.
+
+Do not re-add either. The new services listen on different ports but claim the
+same domains, and the old vhost files sort ahead of the new ones in
+`sites-enabled` — nginx would route those domains back to rebuilt uWSGI services,
+and `api.krcg.org` would stop following the `krcg_api_live` switch.
 
 ## Updates
 
-For a simple package update (no change on the service or webserver configurations), you can use the `deploy` tag:
+If you only need to update TLS certificates, use the `certs` tag:
 
 ```bash
-ansible-playbook codex.yml --tags=deploy
-```
-
-If you only need to update TLS certificates, use:
-
-```bash
-ansible-playbook codex.yml --tags=certs
+ansible-playbook warroom.yml --tags=certs
 ```
