@@ -1,9 +1,10 @@
 # myserver
 
 Legacy Debian webserver deployment for the remaining
-[KRCG](https://github.com/lionel-panhaleux/krcg) static sites and the timer bot.
-Most apps have moved to their own `ansible/` or `deploy/` directory consuming the
-`lionel_panhaleux.server_setup` collection — see "Not deployed from here" below.
+[KRCG](https://github.com/lionel-panhaleux/krcg) static sites.
+Most apps have moved to their own `ansible/` or `deploy/` directory, consuming the
+`lionel_panhaleux.server_setup` collection where they need its roles — see "Not
+deployed from here" below.
 
 ## Initial setup
 
@@ -68,21 +69,6 @@ Just run this command locally, and paste one of the keys as your Github secret.
 ssh-keyscan krcg.org
 ```
 
-### Setup the Timer Discord Bot
-
-You need to get the bot token from discord and use `ansible-vault` to encode it:
-
-```bash
-ansible-vault encrypt_string '<bot_token>' --name 'DISCORD_TOKEN'
-```
-
-Copy the resulting string to `timer-bot.yaml` (replace the old `DISCORD_TOKEN:` value).
-You can now deploy:
-
-```bash
-ansible-playbook timer-bot.yml
-```
-
 ## Not deployed from here
 
 Each of these has a pipeline of its own. Its playbook, and any role only it used,
@@ -94,6 +80,14 @@ Its own pipeline in `lionel-panhaleux/krcg-bot` under `ansible/` ships a release
 wheel to the same host and owns `krcg-bot.service`. Do not add a playbook for it
 back here: a PyPI install would overwrite that deploy, and the package is archived
 at 4.5.
+
+### The Timer Discord Bot
+
+`lionel-panhaleux/timer` under `ansible/` installs a PyPI release into a uv-provided
+Python 3.13 on gravelines and owns `timer-bot.service`. The `python-worker` role went
+with `timer-bot.yml`. Do not re-add either: it built its venv on the host's 3.11,
+where pip skips every `>=3.13` release and still reports success, and it put the
+token back inline in the unit.
 
 ### The rulings and Archon websites
 
