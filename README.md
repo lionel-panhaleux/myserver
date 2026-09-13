@@ -1,10 +1,10 @@
 # myserver
 
-Legacy Debian webserver deployment for the remaining
-[KRCG](https://github.com/lionel-panhaleux/krcg) static sites.
-Most apps have moved to their own `ansible/` or `deploy/` directory, consuming the
-`lionel_panhaleux.server_setup` collection where they need its roles — see "Not
-deployed from here" below.
+Legacy Debian server bootstrap for [KRCG](https://github.com/lionel-panhaleux/krcg):
+initial setup, packages and deployment keys. It no longer deploys any site or
+service: every app has moved to its own `ansible/` or `deploy/` directory,
+consuming the `lionel_panhaleux.server_setup` collection where it needs its roles —
+see "Not deployed from here" below.
 
 ## Initial setup
 
@@ -125,10 +125,10 @@ under `ansible/` (the collection's `nginx_site` role, over HTTP and HTTPS). Its
 `make deploy` still rsyncs the plugin into `projects/lackey.krcg.org/dist`.
 `lackey-static.yml` went; do not re-add it, for the same reason as the War Room app.
 
-## Updates
+### The KRCG static website
 
-If you only need to update TLS certificates, use the `certs` tag:
-
-```bash
-ansible-playbook krcg-static.yml --tags=certs
-```
+`static.krcg.org`'s vhost and certificate come from `lionel-panhaleux/krcg-static`
+under `ansible/` (the collection's `nginx_site` role, as a public site over HTTP and
+HTTPS). Its GitHub Actions still rsync the build into `projects/static.krcg.org/dist`.
+`krcg-static.yml` went, and with it the `register-ssl` and `static-website` roles;
+do not re-add them, for the same reason as the War Room app.
