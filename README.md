@@ -55,7 +55,7 @@ $> cat id_rsa.pub
 
 You might need an additional public key for deployments.
 It is used by Github automation to deploy purely static websites, like `static.krcg.org`
-and `lackey.krcg.org`. Generate _another_ SSH key, upload the private key to Github,
+and the `lackey.krcg.org` content. Generate _another_ SSH key, upload the private key to Github,
 and the public key to your server, like this:
 
 ```bash
@@ -117,6 +117,13 @@ and `api.krcg.org` would stop following the `krcg_api_live` switch.
 from `/var/www/warroom` by the collection's `nginx_site` role. The `pwa-website` role
 went with `warroom.yml`. Do not re-add it: it would recreate the plain vhost files,
 which claim the same domain as the role's vhost.
+
+### The LackeyCCG plugin server
+
+`lackey.krcg.org`'s vhost and certificate come from `lionel-panhaleux/vtes-lackeyccg`
+under `ansible/` (the collection's `nginx_site` role, over HTTP and HTTPS). Its
+`make deploy` still rsyncs the plugin into `projects/lackey.krcg.org/dist`.
+`lackey-static.yml` went; do not re-add it, for the same reason as the War Room app.
 
 ## Updates
 
