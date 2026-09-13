@@ -90,6 +90,18 @@ under `ansible/`, which ships a released wheel to the same host and owns
 `krcg-bot.service`. Do not add a playbook for it back here: a PyPI install would
 overwrite that deploy, and the package is archived at 4.5.
 
+### The rulings and Archon websites
+
+Not deployed from here either. `rulings.krcg.org` comes from
+`vtes-biased/rulings-website` and `archon.krcg.org` from `vtes-biased/archon-vibe`,
+both under `ansible/` consuming the `lionel_panhaleux.server_setup` collection.
+Their playbooks and the `quart-backend`, `fastapi-backend` and
+`postgresql-database` roles were removed once the cutovers were confirmed live.
+
+Do not re-add a rulings playbook in particular: v2 made a one-way schema change
+to the shared `vtes-rulings` database, and the v1 app writes a corrupt row on its
+first login against it.
+
 ### Setup the Timer Discord Bot
 
 You need to get the bot token from discord and use `ansible-vault` to encode it:
