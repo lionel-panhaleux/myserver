@@ -1,5 +1,10 @@
 # myserver
 
+> **Archived.** This repo deploys nothing. Servers are provisioned by
+> [server-setup](https://github.com/lionel-panhaleux/server-setup) (`add-admin.yml`,
+> `setup.yml`), and every app deploys from its own repo — see server-setup's
+> `OPERATIONS.md`. What follows is kept for reading the history.
+
 Legacy Debian server bootstrap for [KRCG](https://github.com/lionel-panhaleux/krcg):
 initial setup, packages and deployment keys. It no longer deploys any site or
 service: every app has moved to its own `ansible/` or `deploy/` directory,
